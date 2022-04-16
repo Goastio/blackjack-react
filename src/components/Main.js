@@ -17,7 +17,7 @@ function Main({cards, playerCards, dealerCards}) {
           </div>
         </div>
       </div>
-    </Wrapper>
+    </Wrapper> 
   );
 }
 
