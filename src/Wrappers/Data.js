@@ -256,21 +256,25 @@ const Data = ({}) => {
       value: 11,
       name: "AceClubs",
       image: <GiCardAceClubs />,
+      isAce: true,
     },
     {
       value: 11,
       name: "AceDiamonds",
       image: <GiCardAceDiamonds />,
+      isAce: true,
     },
     {
       value: 11,
       name: "AceHearts",
       image: <GiCardAceHearts />,
+      isAce: true,
     },
     {
       value: 11,
       name: "AceSpades",
       image: <GiCardAceSpades />,
+      isAce: true,
     },
     {
       value: 10,
