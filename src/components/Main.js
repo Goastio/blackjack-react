@@ -13,13 +13,36 @@ function Main({ cards }) {
     setWin(false);
     const random = Math.floor(Math.random() * cards.length);
     const randomCard = cards[random];
-    setPlayerHand((oldArray) => [
-      ...oldArray,
-      { value: randomCard.value, image: randomCard.image },
-    ]);
+
+    setPlayerHand((oldArray) => {
+
+      const Score = [...oldArray, randomCard]
+        .map((ace) => ace.value)
+        .reduce((a, b) => a + b, 0);
+
+      oldArray = oldArray.map((val) => {
+
+       
+        if (val.name.startsWith("Ace") && Score > 21) {
+          val.value = 1;
+        }
+        return val;
+      });
+      const currentHand = [
+        ...oldArray,
+        {
+          value: randomCard.value,
+          image: randomCard.image,
+          name: randomCard.name,
+        },
+      ];
+      return currentHand;
+    });
+
     if (playerHand[4]) {
       setGameActive(false);
       setScore(0);
+
       setPlayerHand([]);
     }
   };
@@ -33,36 +56,28 @@ function Main({ cards }) {
 
   // update score
   const updateScore = () => {
-    if (playerHand[1]) {
-      setScore(playerHand[0]?.value + playerHand[1]?.value);
-    }
-    if (playerHand[2]) {
-      setScore((oldScore) => oldScore + playerHand[2].value);
-    }
-    if (playerHand[3]) {
-      setScore((oldScore) => oldScore + playerHand[3].value);
-    }
-    if (playerHand[4]) {
-      setScore((oldScore) => oldScore + playerHand[4].value);
-    }
-    if (playerHand[5]) {
-      setScore((oldScore) => oldScore + playerHand[5].value);
-    }
+    // if (playerHand[1]) {
+    //   setScore(playerHand[0]?.value + playerHand[1]?.value);
+    // }
+    // if (playerHand[2]) {
+    //   setScore((oldScore) => oldScore + playerHand[2].value);
+    // }
+    // if (playerHand[3]) {
+    //   setScore((oldScore) => oldScore + playerHand[3].value);
+    // }
+    // if (playerHand[4]) {
+    //   setScore((oldScore) => oldScore + playerHand[4].value);
+    // }
+    // if (playerHand[5]) {
+    //   setScore((oldScore) => oldScore + playerHand[5].value);
+    // }
+    setScore(playerHand.map((ace) => ace.value).reduce((a, b) => a + b, 0));
   };
 
   // updating score every time playerHand changes
   useEffect(() => {
     updateScore();
   }, [playerHand]);
-
-  // questionable if belongs like this
-  // searches playerHand for an ace, and subtracts 10 from score, then updates score
-  if (score > 21) {
-    let object = playerHand.find((o) => o.value === 11);
-    if (object) {
-      setScore((oldScore) => oldScore - 10);
-    }
-  }
 
   return (
     <Wrapper>
