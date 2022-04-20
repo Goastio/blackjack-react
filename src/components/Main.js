@@ -116,7 +116,9 @@ function Main({ cards }) {
         }
         return val;
       });
-
+      if (Score < 17) {
+        dealerRandomizer();
+      }
       const currentHand = [
         ...oldArray,
         {
@@ -125,11 +127,6 @@ function Main({ cards }) {
           name: randomCard.name,
         },
       ];
-
-      if (Score < 17) {
-        dealerRandomizer();
-      }
-
       return currentHand;
     });
   };
@@ -143,8 +140,6 @@ function Main({ cards }) {
   const stand = () => {
     if (playerScore) {
       setGameActive(false);
-    }
-    if (dealerScore < 17) {
       dealerRandomizer();
     }
   };
@@ -167,7 +162,7 @@ function Main({ cards }) {
             className="-mb-10 h-[150px] w-[150px]"
           />
         </div>
-        <div className="flex mt-5 h-8 w-8 select-none items-center justify-center rounded-md bg-black text-white">
+        <div className="mt-5 flex h-8 w-8 select-none items-center justify-center rounded-md bg-black text-white">
           {dealerScore}
         </div>
 
