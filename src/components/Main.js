@@ -35,9 +35,7 @@ function Main({ cards }) {
       ];
       if (Score >= 21) {
         setGameActive(false);
-        showTwoBust();
       }
-
       return currentHand;
     });
   };
@@ -51,6 +49,7 @@ function Main({ cards }) {
     setGameActive(true);
     playerRandomizer();
     playerRandomizer();
+    showOneBust();
   };
 
   // update score
@@ -76,8 +75,7 @@ function Main({ cards }) {
     ); //shorthand for above
   };
 
-  const showTwoBust = () => {
-
+  const showOneBust = () => {
     const random = Math.floor(Math.random() * cards.length);
     const randomCard = cards[random];
 
@@ -102,7 +100,7 @@ function Main({ cards }) {
       ];
       return currentHand;
     });
-  }
+  };
 
   const dealerRandomizer = () => {
     const random = Math.floor(Math.random() * cards.length);
@@ -131,6 +129,7 @@ function Main({ cards }) {
       if (Score < 17) {
         dealerRandomizer();
       }
+
       return currentHand;
     });
   };
@@ -141,12 +140,13 @@ function Main({ cards }) {
     );
   };
 
-
   const stand = () => {
     if (playerScore) {
       setGameActive(false);
     }
-    dealerRandomizer();
+    if (dealerScore < 17) {
+      dealerRandomizer();
+    }
   };
 
   // updating score every time playerHand changes
@@ -167,7 +167,7 @@ function Main({ cards }) {
             className="-mb-10 h-[150px] w-[150px]"
           />
         </div>
-        <div className="flex h-8 w-8 select-none items-center justify-center rounded-md bg-black text-white">
+        <div className="flex mt-5 h-8 w-8 select-none items-center justify-center rounded-md bg-black text-white">
           {dealerScore}
         </div>
 
