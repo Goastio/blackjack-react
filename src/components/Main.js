@@ -19,12 +19,12 @@ function Main({ cards }) {
       const Score = [...oldArray, randomCard]
         .map((ace) => ace.value)
         .reduce((a, b) => a + b, 0);
-      oldArray = oldArray.map((val) => {
-        if (val.name.startsWith("Ace") && Score > 21) {
-          val.value = 1;
-        }
-        return val;
-      });
+      // oldArray = oldArray.map((val) => {
+      // if (val.name.startsWith("Ace") && Score > 21) {
+      //   val.value = 1;
+      // }
+      // return val;
+      // });
       const currentHand = [
         ...oldArray,
         {
@@ -32,9 +32,22 @@ function Main({ cards }) {
           image: randomCard.image,
           name: randomCard.name,
         },
-      ];
-      if (Score >= 21) {
+      ].map((val) => {
+        if (val.name.startsWith("Ace") && Score > 21) {
+          val.value = 1;
+        }
+        return val;
+      });
+
+      const newScore = currentHand
+        .map((ace) => ace.value)
+        .reduce((a, b) => a + b, 0);
+      // if (newScore == 21) {
+      // showOneDealer();
+      // }
+      if (newScore >= 21) {
         setGameActive(false);
+        // showOneDealer();
       }
       return currentHand;
     });
@@ -49,7 +62,7 @@ function Main({ cards }) {
     setGameActive(true);
     playerRandomizer();
     playerRandomizer();
-    showOneBust();
+    showOneDealer();
   };
 
   // update score
@@ -71,11 +84,11 @@ function Main({ cards }) {
     // }
 
     setPlayerScore(
-      playerHand.map((ace) => ace.value).reduce((a, b) => a + b, 0)
+      playerHand.map((score) => score.value).reduce((a, b) => a + b, 0)
     ); //shorthand for above
   };
 
-  const showOneBust = () => {
+  const showOneDealer = () => {
     const random = Math.floor(Math.random() * cards.length);
     const randomCard = cards[random];
 
@@ -110,15 +123,7 @@ function Main({ cards }) {
       const Score = [...oldArray, randomCard]
         .map((ace) => ace.value)
         .reduce((a, b) => a + b, 0);
-      oldArray = oldArray.map((val) => {
-        if (val.name.startsWith("Ace") && Score > 21) {
-          val.value = 1;
-        }
-        return val;
-      });
-      if (Score < 17) {
-        dealerRandomizer();
-      }
+
       const currentHand = [
         ...oldArray,
         {
@@ -126,7 +131,18 @@ function Main({ cards }) {
           image: randomCard.image,
           name: randomCard.name,
         },
-      ];
+      ].map((val) => {
+        if (val.name.startsWith("Ace") && Score > 21) {
+          val.value = 1;
+        }
+        return val;
+      });
+      const newScore = currentHand
+        .map((ace) => ace.value)
+        .reduce((a, b) => a + b, 0);
+      if (newScore <= 17) {
+        dealerRandomizer();
+      }
       return currentHand;
     });
   };
