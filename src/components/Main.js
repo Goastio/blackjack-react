@@ -140,7 +140,7 @@ function Main({ cards }) {
       const newScore = currentHand
         .map((ace) => ace.value)
         .reduce((a, b) => a + b, 0);
-      if (newScore <= 17) {
+      if (newScore < 17) {
         dealerRandomizer();
       }
       return currentHand;

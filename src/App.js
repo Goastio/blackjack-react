@@ -10,7 +10,7 @@ function App() {
 
   return (
     <div className="flooring">
-      <BrowserRouter>
+      <BrowserRouter basename="/blackjack">
         <Nav />
         <ScrollToTop />
         <Switch>

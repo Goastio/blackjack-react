@@ -21,7 +21,7 @@ function Nav() {
           <div className="h-auto">
               <img src={logo} alt="logo" />
           </div>
-          <div className="sm:flex gap-8 text-lg font-semibold text-white">
+          <div className="flex gap-8 text-lg font-semibold text-white">
             {navLinks.map((navLink) => {
               return (
                 <Link
