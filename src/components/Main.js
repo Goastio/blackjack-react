@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import Wrapper from "../Wrappers/Wrapper";
 import BoardRules from "../images/blackjack_rules";
 import dealerImage from "../images/businesswoman.png";
+import AOS from "aos";
+import "aos/dist/aos.css";
+AOS.init();
 
 function Main({ cards }) {
   const [playerHand, setPlayerHand] = useState([]);
@@ -143,6 +146,7 @@ function Main({ cards }) {
       if (newScore < 17) {
         dealerRandomizer();
       }
+
       return currentHand;
     });
   };
@@ -151,6 +155,49 @@ function Main({ cards }) {
     setDealerScore(
       dealerHand.map((ace) => ace.value).reduce((a, b) => a + b, 0)
     );
+  };
+
+  const whoWins = () => {
+    const dealerBust = "Dealer busted. You win!";
+    const playerBust = "You bust. Dealer wins!";
+    const push = "Dealer push.";
+    const playerWin = "You win!";
+    const dealerWin = "Dealer wins!";
+    let result;
+
+    if (dealerScore > 21) {
+      return dealerBust;
+    }
+    if (playerScore > 21) {
+      return playerBust;
+    }
+    if (
+      playerScore === dealerScore &&
+      gameActive === false &&
+      playerScore > 11
+    ) {
+      return push;
+    }
+    if (
+      playerScore > dealerScore &&
+      playerScore <= 21 &&
+      dealerScore >= 12 &&
+      dealerScore <= 21
+    ) {
+      return playerWin;
+    }
+    if (playerScore === 21) {
+      return playerWin;
+    }
+    if (
+      dealerScore > playerScore &&
+      dealerScore <= 21 &&
+      playerScore >= 12 &&
+      playerScore <= 21
+    ) {
+      return dealerWin;
+    }
+    return result;
   };
 
   const stand = () => {
@@ -166,56 +213,72 @@ function Main({ cards }) {
     updateDealerScore();
   }, [playerHand, dealerHand]);
 
-  console.log(dealerHand);
-  console.log(dealerScore);
   return (
     <Wrapper>
-      <div className="flooring flex h-full w-full flex-col items-center justify-center gap-10 bg-black">
+      <div className="flooring flex h-full flex-col items-center justify-center gap-10 bg-black py-3 md:w-full">
         <div className="text-white">
           <img
             src={dealerImage}
             alt=""
-            className="-mb-10 h-[150px] w-[150px]"
+            className="-mb-10 h-[100px] md:h-[150px] md:w-[150px]"
           />
         </div>
         <div className="mt-5 flex h-8 w-8 select-none items-center justify-center rounded-md bg-black text-white">
           {dealerScore}
         </div>
+        <div className="flex h-4 w-full justify-center text-2xl text-white">
+          {whoWins()}
+        </div>
 
-        <div className="flex h-80 w-[608px] items-center justify-center overflow-hidden rounded-lg">
-          <div className="flex h-80 w-full justify-center rounded-b-full rounded-t-lg bg-[#2DA1FF] shadow-md">
+        <div className="flex h-60 w-[400px] items-center justify-center rounded-lg md:h-80 md:w-[608px] md:overflow-hidden">
+          <div className="flex h-60 w-full justify-center rounded-b-full rounded-t-lg bg-[#2DA1FF] shadow-md md:h-80">
             <div className="absolute">
-              <div className="mb-50 flex self-start text-7xl text-white">
+              <div className="mb-50 relative z-10 flex self-start text-7xl text-white">
                 {dealerHand[0] && (
-                  <div className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md">
+                  <div
+                    data-aos="fade-left"
+                    className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md"
+                  >
                     <div className="-mx-3 flex h-[61.9px] w-[46.93px] items-center justify-center rounded-md border border-white bg-black">
                       <div>{dealerHand[0].image}</div>
                     </div>
                   </div>
                 )}
                 {dealerHand[1] && (
-                  <div className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md">
+                  <div
+                    data-aos="fade-left"
+                    className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md"
+                  >
                     <div className="-mx-3 flex h-[61.9px] w-[46.93px] items-center justify-center rounded-md border border-white bg-black">
                       <div>{dealerHand[1].image}</div>
                     </div>
                   </div>
                 )}
                 {dealerHand[2] && (
-                  <div className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md">
+                  <div
+                    data-aos="fade-left"
+                    className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md"
+                  >
                     <div className="-mx-3 flex h-[61.9px] w-[46.93px] items-center justify-center rounded-md border border-white bg-black">
                       <div>{dealerHand[2].image}</div>
                     </div>
                   </div>
                 )}
                 {dealerHand[3] && (
-                  <div className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md">
+                  <div
+                    data-aos="fade-left"
+                    className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md"
+                  >
                     <div className="-mx-3 flex h-[61.9px] w-[46.93px] items-center justify-center rounded-md border border-white bg-black">
-                      <div>{dealerHand[3].image}</div>
+                      <div>{dealerHand[3].image} </div>
                     </div>
                   </div>
                 )}
                 {dealerHand[4] && (
-                  <div className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md">
+                  <div
+                    data-aos="fade-left"
+                    className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md"
+                  >
                     <div className="-mx-3 flex h-[61.9px] w-[46.93px] items-center justify-center rounded-md border border-white bg-black">
                       <div>{dealerHand[4].image}</div>
                     </div>
@@ -234,35 +297,50 @@ function Main({ cards }) {
 
             <div className="mb-5 flex self-end text-7xl text-white">
               {playerHand[0] && (
-                <div className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md">
+                <div
+                  data-aos="fade-down-left"
+                  className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md"
+                >
                   <div className="-mx-3 flex h-[61.9px] w-[46.93px] items-center justify-center rounded-md border border-white bg-black">
                     <div>{playerHand[0].image}</div>
                   </div>
                 </div>
               )}
               {playerHand[1] && (
-                <div className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md">
+                <div
+                  data-aos="fade-down-left"
+                  className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md"
+                >
                   <div className="-mx-3 flex h-[61.9px] w-[46.93px] items-center justify-center rounded-md border border-white bg-black">
                     <div>{playerHand[1].image}</div>
                   </div>
                 </div>
               )}
               {playerHand[2] && (
-                <div className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md">
+                <div
+                  data-aos="fade-down"
+                  className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md"
+                >
                   <div className="-mx-3 flex h-[61.9px] w-[46.93px] items-center justify-center rounded-md border border-white bg-black">
                     <div>{playerHand[2].image}</div>
                   </div>
                 </div>
               )}
               {playerHand[3] && (
-                <div className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md">
+                <div
+                  data-aos="fade-down-right"
+                  className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md"
+                >
                   <div className="-mx-3 flex h-[61.9px] w-[46.93px] items-center justify-center rounded-md border border-white bg-black">
                     <div>{playerHand[3].image}</div>
                   </div>
                 </div>
               )}
               {playerHand[4] && (
-                <div className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md">
+                <div
+                  data-aos="fade-down-right"
+                  className="flex min-w-[52px] items-center justify-center rounded-md border-y-4 border-white bg-white shadow-md"
+                >
                   <div className="-mx-3 flex h-[61.9px] w-[46.93px] items-center justify-center rounded-md border border-white bg-black">
                     <div>{playerHand[4].image}</div>
                   </div>
